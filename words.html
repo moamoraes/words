@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Palavras Coloridas</title>
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 3rem;
+        font-family: Arial, sans-serif;
+        color: white;
+        user-select: none;
+        transition: background-color 0.5s;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="palavra">Carregando...</div>
+
+    <script>
+      let palavras = [];
+      let index = 0;
+
+      const palavraEl = document.getElementById("palavra");
+
+      // 🔹 URL direta do seu arquivo no OneDrive (ajuste aqui)
+      const url =
+        "https://onedrive.live.com/download?resid=9AC46E0885F3C285!123";
+
+      // Função para gerar cor aleatória
+      function corAleatoria() {
+        return `hsl(${Math.floor(Math.random() * 360)}, 80%, 50%)`;
+      }
+
+      // Trocar palavra e cor
+      function trocar() {
+        if (palavras.length === 0) return;
+        palavraEl.textContent = palavras[index];
+        document.body.style.backgroundColor = corAleatoria();
+        index = (index + 1) % palavras.length;
+      }
+
+      // Buscar lista de palavras do OneDrive
+      fetch(url)
+        .then((res) => res.text())
+        .then((texto) => {
+          try {
+            palavras = JSON.parse(texto);
+            trocar();
+          } catch (e) {
+            palavraEl.textContent = "Erro ao ler arquivo";
+          }
+        })
+        .catch(() => {
+          palavraEl.textContent = "Erro ao carregar lista";
+        });
+
+      // Evento de clique/toque
+      document.body.addEventListener("click", trocar);
+      document.body.addEventListener("touchstart", trocar);
+    </script>
+  </body>
+</html>
