@@ -1,1 +1,1 @@
-["Amor", "Paz", "Alegria", "Felicidade", "Gratidão"]
+["Perhaps", "Often", "Slightly", "Soon", "Never"]
